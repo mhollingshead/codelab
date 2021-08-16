@@ -1,0 +1,114 @@
+@use '../../partials/ace-overrides' as *;
+@use '../../partials/hljs-overrides' as *;
+
+.console {
+    width: 100%;
+    height: 100%;
+
+    &__drag {
+        border-top: .0625rem solid #dedede;
+        cursor: row-resize;
+        height: .0625rem;
+        padding-bottom: .375rem;
+    }
+    &__head {
+        display: flex;
+        align-items: center;
+        padding: .125rem 0 .5rem 2.5625rem;
+    }
+    &__title {
+        margin-right: .5rem;
+        font-size: 1.125rem;
+    }
+    &__output {
+        background-color: #f2f2f2;
+        height: calc(100% - 3.375rem);
+        overflow-y: scroll;
+    }
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    margin-left: .5rem;
+    padding: .5rem .6rem .5rem .5rem;
+    border-radius: .25rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    
+    &__icon {
+        font-family: 'Material Icons';
+        font-size: 1.25rem;
+        margin-right: .375rem;
+    }
+    &__text {
+        font-weight: 600;
+    }
+    &--primary {
+        background-color: #0366d6;
+        color: white;
+    }
+    &--secondary {
+        background-color: #cd200215;
+        color: #cd1f02
+    }
+}
+
+
+
+
+// TEMPORARY
+pre, anonymous {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+.op {
+    padding: 4px 41px;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+    font-size: 12px;
+    line-height: 20px;
+}
+.carrot {
+    color: #0366d6;
+    padding-right: 16px;
+    font-weight: 900;
+    height: 20px;
+    font-size: 16px;
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+}
+.m-i {
+    font-family: 'Material Icons';
+}
+.output {
+    text-align: left;
+    width: 100%;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    span {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    }
+}
+.hidden {
+    display: none;
+}
+.expand {
+    font-family: 'Material Icons' !important;
+    cursor: pointer;
+    font-size: 18px;
+    vertical-align: bottom;
+}
+.op.error {
+    background-color: #ffc2bd;
+}
+.carrot.error {
+    color: #c43529;
+}
+.output.error {
+    color: #c43529;
+}

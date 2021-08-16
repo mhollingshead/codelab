@@ -1,0 +1,33 @@
+.hljs-number, .hljs-literal {
+    color: #005fcc;
+}
+.hljs-number.dark, .hljs-literal.dark {
+    color: #b379ff;
+}
+.hljs-title, .hljs-tag, .hljs-name {
+    color: #005fcc;
+}
+.hljs-title.dark, .hljs-tag.dark, .hljs-name.dark {
+    color: #298dff;
+}
+.hljs-string {
+    color: #cd1f02;
+}
+.hljs-string.dark {
+    color: #ff8e5f;
+}
+.hljs-keyword, .hljs-variable {
+    color: #a9029b;
+}
+.hljs-keyword.dark, .hljs-variable.dark {
+    color: #b379ff;
+}
+.hljs-ind {
+    color: grey;
+}
+.hljs-ind.dark {
+    color: rgb(157, 157, 157);
+}
+.hljs-info {
+    font-style: italic;
+}
