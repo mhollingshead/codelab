@@ -1,47 +1,61 @@
+import bash from  '../assets/icons/bash.svg';
+import c_cpp from  '../assets/icons/c_cpp.svg';
+import csharp from  '../assets/icons/csharp.svg';
+import java from  '../assets/icons/java.svg';
+import javascript from '../assets/icons/javascript.svg';
+import lua from  '../assets/icons/lua.svg';
+import node from  '../assets/icons/node.svg';
+import ocaml from  '../assets/icons/ocaml.svg';
+import python from  '../assets/icons/python.svg';
+
+export const langs = {"c_cpp": {"icon": c_cpp,"display": "C/C++"},"csharp": {"icon": csharp,"display": "C#"},"java": {"icon": java,"display": "Java"},"javascript": {"icon": javascript,"display": "JavaScript"},"lua": {"icon": lua,"display": "Lua"},"node": {"icon": node,"display": "Node.js"},"python": {"icon": python,"display": "Python"},"ocaml": {"icon": ocaml,"display": "OCaml"},"sh": {"icon": bash,"display": "Bash"}};
+
 const legacy = console.log;
 export function hijackConsole() {
-    const logger = document.querySelector('.console__output');
+    const logger = document.querySelector('.console__stdout');
     console.log = function () {
         for (let i = 0; i < arguments.length; i++) {
             legacy(arguments[i]);
-            const pre = document.createElement('pre')
-            pre.classList.add('output');
-            pre.id = `log_${document.querySelectorAll('.output').length}`;
-            pre.innerHTML = formatLogItem(arguments[i]);
             logger.innerHTML += `
-                <div class="op">
-                    <div class="carrot">
-                        <span class="m-i">
-                            navigate_before
-                        </span>
-                    </div>
-                    ${pre.outerHTML}
+                <div class="console__log">
+                    <pre>${formatLogItem(arguments[i])}</pre>
                 </div>
             `;
             // Scroll to bottom of the console on new logs
-            logger.scrollTop = logger.scrollHeight;
+            const body = document.querySelector('.console__body');
+            body.scrollTo(body.scrollHeight, body.scrollHeight);
         }
     }
-}
-export function giveConsoleBack() {
-    console.log = legacy;
 }
 
 // Log errors to console with necessary styling
 export function logError(e) {
-    const logger = document.querySelector('.console__output');
+    const logger = document.querySelector('.console__stdout');
     logger.innerHTML += `
-        <div class="op error">
-            <div class="carrot error">
-                <span class="m-i">
-                    error
-                </span>
-            </div>
-            <pre class="output error">${e}</pre>
+        <div class="console__log console__log--error">
+            <pre>${e}</pre>
         </div>
     `;
-    logger.scrollTop = logger.scrollHeight;
+    // Scroll to bottom of the console on new logs
+    const body = document.querySelector('.console__body');
+    body.scrollTo(body.scrollHeight, body.scrollHeight);
 };
+
+export function logUser(data, color) {
+    const logger = document.querySelector('.console__stdout');
+    logger.innerHTML += `
+        <div class="console__log console__log--user">
+            <pre><div class="console__avatar" style="background-color: ${color}"></div>${data.user.username} @ ${new Date(data.time).toUTCString()}:</pre>
+        </div>
+    `;
+    // Scroll to bottom of the console on new logs
+    const body = document.querySelector('.console__body');
+    body.scrollTo(body.scrollHeight, body.scrollHeight);
+}
+
+export function giveConsoleBack() {
+    console.log = legacy;
+}
 
 window.expandArr = (e) => {
     const minifiedArr = e.nextSibling.nextSibling.nextSibling;
@@ -138,9 +152,9 @@ function formatLogItem(arg, depth) {
 export function evaluate(inp) {
     let success = true;
     try {
-        // Evaluate code
         eval(inp);
-    } catch(e) {
+    }
+    catch(e) {
         // Handle errors
         logError(e.message);
         return false;

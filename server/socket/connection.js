@@ -1,11 +1,17 @@
-const { connect, getUser, disconnect } = require('./connections');
-const { spawn } = require('child_process');
+const { connect, getUser, getUsersInRoom, disconnect } = require('./connections');
+const { killProcess, addProcess, removeProcess, writeInput } = require('./processes');
+const { spawn, exec } = require('child_process');
 const fs = require('fs');
 
-const socketConnection = socket => {
+const handleConnection = socket => {
     socket.on('join', ({ username, roomname }) => {
         const user = connect(socket.id, username, roomname);
         socket.join(user.roomname);
+    });
+
+    socket.on('kill process', () => {
+        const user = getUser(socket.id);
+        killProcess(user.roomname + socket.id);
     });
 
     socket.on('javascript', ({ script }) => {
@@ -15,119 +21,116 @@ const socketConnection = socket => {
 
     socket.on('node', ({ script, to }) => {
         const user = getUser(socket.id);
+        const processId = user.roomname + socket.id;
 
-        fs.writeFileSync(`./engines/node/${user.roomname+socket.id}.js`, script);
+        fs.writeFileSync(`./engines/node/${processId}.js`, script);
+        const child = spawn('node', [`./engines/node/${processId}.js`]);
 
-        let child = spawn('node', [`./engines/node/${user.roomname+socket.id}.js`]);
-
-        child.stdout.on( "data", (data) => {
-            socket.emit("output", { data: data.toString() });
-            if (to === "all") {
-                socket.broadcast.to(user.roomname).emit("output", { data: data.toString() });
-            }
-        });
-
-        child.stderr.on('data', (data) => {
-            socket.emit("output", { data: data.toString(), error: true });
-            clearInterval(kill);
-            child.kill();
-        });
-
-        child.on('error', (error) => {
-            console.log(error);
-            clearInterval(kill);
-            child.kill();
-        });
+        addProcess(processId, child, user, socket, to);
+        (to === "all") && socket.broadcast.to(user.roomname).emit("foreign process", {user: user, time: new Date()});
 
         child.on('exit', () => {
-            clearInterval(kill);
             child.kill();
-            fs.unlink(`./engines/node/${user.roomname+socket.id}.js`, () => {console.log(`Successfully deleted file ${user.roomname+socket.id}.js`)});
+            removeProcess(processId);
+            fs.unlink(`./engines/node/${processId}.js`, () => {console.log(`Successfully deleted file ${processId}.js`)});
+            socket.emit("process finished");
+            (to === "all") && socket.broadcast.to(user.roomname).emit("process finished");
         });
-
-        const kill = setTimeout(() => {
-            child.kill();
-            socket.emit("output", { data: "ERROR: 45000ms time limit exceeded.", error: true });
-        }, 45000);
     });
 
     socket.on('lua', ({ script, to }) => {
         const user = getUser(socket.id);
+        const processId = user.roomname + socket.id;
 
-        fs.writeFileSync(`./engines/lua/${user.roomname+socket.id}.lua`, script);
+        fs.writeFileSync(`./engines/lua/${processId}.lua`, script);
+        const child = spawn('lua', [`./engines/lua/${processId}.lua`]);
 
-        let child = spawn('lua', [`./engines/lua/${user.roomname+socket.id}.lua`]);
-
-        child.stdout.on( "data", (data) => {
-            socket.emit("output", { data: data.toString() });
-            if (to === "all") {
-                socket.broadcast.to(user.roomname).emit("output", { data: data.toString() });
-            }
-        });
-
-        child.stderr.on('data', (data) => {
-            socket.emit("output", { data: data.toString(), error: true });
-            clearInterval(kill);
-            child.kill();
-        });
-
-        child.on('error', (error) => {
-            console.log(error);
-            clearInterval(kill);
-            child.kill();
-        });
+        addProcess(processId, child, user, socket, to);
+        (to === "all") && socket.broadcast.to(user.roomname).emit("foreign process", {user: user, time: new Date()});
 
         child.on('exit', () => {
-            clearInterval(kill);
             child.kill();
-            fs.unlink(`./engines/lua/${user.roomname+socket.id}.lua`, () => {console.log(`Successfully deleted file ${user.roomname+socket.id}.lua`)});
+            removeProcess(processId);
+            fs.unlink(`./engines/lua/${processId}.lua`, () => {console.log(`Successfully deleted file ${processId}.lua`)});
+            socket.emit("process finished");
+            (to === "all") && socket.broadcast.to(user.roomname).emit("process finished");
         });
-
-        const kill = setTimeout(() => {
-            child.kill();
-            socket.emit("output", { data: "ERROR: 45000ms time limit exceeded.", error: true });
-        }, 45000);
     });
+
     socket.on('python', ({ script, to }) => {
         const user = getUser(socket.id);
+        const processId = user.roomname + socket.id;
 
-        fs.writeFileSync(`./engines/python/${user.roomname+socket.id}.py`, script);
+        fs.writeFileSync(`./engines/python/${processId}.py`, script);
+        const child = spawn('python3', [`./engines/python/${processId}.py`]);
 
-        let child = spawn('python3', [`./engines/python/${user.roomname+socket.id}.py`]);
-
-        child.stdout.on( "data", (data) => {
-            socket.emit("output", { data: data.toString() });
-            if (to === "all") {
-                socket.broadcast.to(user.roomname).emit("output", { data: data.toString() });
-            }
-        });
-
-        child.stderr.on('data', (data) => {
-            socket.emit("output", { data: data.toString(), error: true });
-            clearInterval(kill);
-            child.kill();
-        });
-
-        child.on('error', (error) => {
-            console.log(error);
-            clearInterval(kill);
-            child.kill();
-        });
+        addProcess(processId, child, user, socket, to);
+        (to === "all") && socket.broadcast.to(user.roomname).emit("foreign process", {user: user, time: new Date()});
 
         child.on('exit', () => {
-            clearInterval(kill);
             child.kill();
-            fs.unlink(`./engines/python/${user.roomname+socket.id}.py`, () => {console.log(`Successfully deleted file ${user.roomname+socket.id}.py`)});
+            removeProcess(processId);
+            fs.unlink(`./engines/python/${processId}.py`, () => {console.log(`Successfully deleted file ${processId}.py`)});
+            socket.emit("process finished");
+            (to === "all") && socket.broadcast.to(user.roomname).emit("process finished");
         });
-
-        const kill = setTimeout(() => {
-            child.kill();
-            socket.emit("output", { data: "ERROR: 45000ms time limit exceeded.", error: true });
-        }, 45000);
     });
+
+    socket.on('ocaml', ({ script, to }) => {
+        const user = getUser(socket.id);
+        const processId = user.roomname + socket.id;
+
+        fs.writeFileSync(`./engines/ocaml/${user.roomname+socket.id}.ml`, script);
+        const child = spawn('ocaml', [`./engines/ocaml/${user.roomname+socket.id}.ml`]);
+
+        addProcess(processId, child, user, socket, to);
+        (to === "all") && socket.broadcast.to(user.roomname).emit("foreign process", {user: user, time: new Date()});
+
+        child.on('exit', () => {
+            child.kill();
+            removeProcess(processId);
+            fs.unlink(`./engines/ocaml/${processId}.ml`, () => {console.log(`Successfully deleted file ${processId}.ml`)});
+            socket.emit("process finished");
+            (to === "all") && socket.broadcast.to(user.roomname).emit("process finished");
+        });
+    });
+
+    socket.on('sh', ({ script, to }) => {
+        const user = getUser(socket.id);
+        const processId = user.roomname + socket.id;
+
+        fs.writeFileSync(`./engines/sh/${processId}.sh`, script);
+
+        exec('chmod', ['-x', `./engines/sh/${processId}.sh`]);
+        const child = spawn('sh', [`./engines/sh/${processId}.sh`]);
+
+        addProcess(processId, child, user, socket, to);
+        (to === "all") && socket.broadcast.to(user.roomname).emit("foreign process", {user: user, time: new Date()});
+
+        child.on('exit', () => {
+            child.kill();
+            removeProcess(processId);
+            fs.unlink(`./engines/sh/${processId}.sh`, () => {console.log(`Successfully deleted file ${processId}.ml`)});
+            socket.emit("process finished");
+            (to === "all") && socket.broadcast.to(user.roomname).emit("process finished");
+        });
+    });
+
+    socket.on('input', ({ input, toAll }) => {
+        const user = getUser(socket.id);
+        const processId = user.roomname + socket.id;
+        socket.emit("output", { data: input })
+        toAll && socket.broadcast.to(user.roomname).emit("output", { data: input });
+        writeInput(processId, input);
+    })
+
+    socket.on('message', message => {
+        socket.broadcast.to(getUser(socket.id).roomname).emit("incoming message", message);
+    });
+
     socket.on('disconnect', () => {
         disconnect(socket.id);
     });
 }
 
-module.exports = { socketConnection };
+module.exports = { handleConnection };

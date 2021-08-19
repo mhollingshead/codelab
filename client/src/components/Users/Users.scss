@@ -1,0 +1,193 @@
+@use '../../partials/colors' as *;
+@use '../../partials/mixins' as *;
+
+.users {
+    width: 100%;
+    height: 40%;
+    padding: 1rem;
+    overflow-y: scroll;
+    &__form {
+        display: flex;
+    }
+    &__input {
+        border-radius: 4px 0 0 4px;
+        border: 1px solid $border-light;
+        background-color: $bg-primary-light;
+        width: 100%;
+        outline: none;
+        padding: 0.5rem;
+    }
+    &__button {
+        background-color: $bg-secondary-light;
+        border-top: 1px solid $border-light;
+        border-right: 1px solid $border-light;
+        border-bottom: 1px solid $border-light;
+        border-left: none;
+        border-radius: 0 4px 4px 0;
+        outline: none;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+    &__list {
+        list-style: none;
+        padding: 1rem 0;
+    }
+}
+.user {
+    width: 100%;
+    display: flex;
+    margin-bottom: 0.5rem;
+    &__avatar {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 1rem;
+        border-radius: 50%;
+        border: 1px solid rgb(0, 0, 0, 0.1);
+    }
+    &__username {
+        font-size: .875rem;
+    }
+}
+.chat {
+    width: 100%;
+    height: 60%;
+    overflow-y: scroll;
+    position: relative;
+    border-top: 1px solid $border-light;
+    background-color: $bg-secondary-light;
+    &__body {
+        height: 100%;
+        overflow-y: scroll;
+        padding: 1rem 1rem 0 1rem;
+        &::after {
+            display: block;
+            background-color: $bg-secondary-light;
+            content: "";
+            height: 3.125rem;
+            width: 100%;
+        }
+    }
+    &__foot {
+        position: absolute;
+        padding: 0 0 1rem 0;
+        background-color: $bg-secondary-light;
+        width: calc(100% - 2rem);
+        bottom: 0rem;
+        left: 1rem;
+    }
+    &__form {
+        position: relative;
+    }
+    &__input {
+        border: 1px solid $border-light;
+        background-color: $bg-primary-light;
+        border-radius: 4px;
+        position: relative;
+        width: 100%;
+        outline: none;
+        padding: 8px 36px 8px 8px;
+    }
+    &__button {
+        @include cta;
+        @include flex-center;
+        color: $highlight-primary-blue;
+        font-family: 'Material Icons';
+        position: absolute;
+        padding: 0.5rem;
+        font-size: 1.25rem;
+        height: 2.125rem;
+        top: 0;
+        right: 0;
+        background-color: transparent;
+        transition: right 0.3s;
+        &:hover {
+            right: -0.25rem;
+            padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+        }
+    }
+    &__user {
+        @include flex-vcenter;
+        color: $text-secondary-light;
+        font-size: .75rem;
+        margin-bottom: 0.85rem;
+        & > *:first-child {
+            margin-right: 0.5rem;
+        }
+    }
+}
+.message {
+    margin-bottom: 0.85rem;
+    &__head {
+        @include flex-vcenter;
+        font-size: .75rem;
+        color: $text-secondary-light;;
+        margin-bottom: 0.25rem;
+        & > *:first-child {
+            margin-right: 0.5rem;
+        }
+    }
+    &__body {
+        width: 100%;
+        padding: 0.5rem;
+        background-color: $bg-primary-light;
+        border: 1px solid $border-light;
+        border-radius: 0.25rem;
+        font-size: .84375rem;
+    }
+    &__avatar {
+        @include avatar;
+        border: 1px solid rgb(0, 0, 0, 0.1);
+    }
+}
+.dark {
+    .users {
+        &__input {
+            border: 1px solid $border-dark;
+            background-color: $bg-primary-dark;
+            color: $text-primary-dark;
+        }
+        &__button {
+            border-top: 1px solid $border-dark;
+            border-right: 1px solid $border-dark;
+            border-bottom: 1px solid $border-dark;
+            border-left: none;
+            background-color: $bg-other-dark;
+            color: $text-other-dark;
+        }
+        &__avatar {
+            border: 1px solid rgb(255, 255, 255, 0.1);
+        }
+    }
+    .chat {
+        border-top: 1px solid $border-dark;
+        background-color: $bg-secondary-dark;
+        &__body {
+            &::after {
+                background-color: $bg-secondary-dark;
+            }
+        }
+        &__foot {
+            background-color: $bg-secondary-dark;
+        }
+        &__input {
+            border: 1px solid $border-dark;
+            background-color: $bg-primary-dark;
+            color: $text-primary-dark;
+        }
+        &__user {
+            color: $text-secondary-dark;
+        }
+        &__avatar {
+            border: 1px solid rgb(255, 255, 255, 0.1);
+        }
+    }
+    .message {
+        &__body {
+            border: 1px solid $border-dark;
+            background-color: $bg-primary-dark;
+        }
+        &__avatar {
+            border: 1px solid rgb(255, 255, 255, 0.1);
+        }
+    }
+}

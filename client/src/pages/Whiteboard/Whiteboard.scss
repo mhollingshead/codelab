@@ -1,24 +1,24 @@
+@use '../../partials/colors' as *;
+@use '../../partials/mixins' as *;
+
 .header {
-    display: flex;
-    align-items: center;
+    @include flex-vcenter;
+    border-bottom: 1px solid $border-light;
     justify-content: space-between;
     width: 100vw;
     height: 4.75rem;
     padding: 0 1rem;
-    border-bottom: 1px solid #dedede;
 }
 .logo {
-    display: flex;
-    align-items: center;
-
+    @include flex-vcenter;
     &__icon {
         font-family: 'Material Icons';
         font-size: 1.5rem;
-        color: #0366d6;
+        color: $highlight-primary-blue;
     }
     &__title  {
         font-size: 1.5rem;
-        font-weight:  500;
+        font-weight: 500;
     }
     &__seperator {
         font-family: monospace;
@@ -27,56 +27,80 @@
         margin: 0 .25rem;
     }
     &__whiteboardId {
-        background-color: #f2f2f2;
+        @include cta;
+        background-color: $bg-secondary-light;
         font-size: 1rem;
         font-weight: 500;
-        color: #0366d6;
+        color: $highlight-primary-blue;
         padding: .25rem;
         border-radius: .25rem;
-        cursor: pointer;
     }
 }
-
 .settings {
+    display: flex;
+    & > * {
+        margin-left: 1rem;
+    }
     &__select {
-        display: flex;
-        background-color: white;
+        @include flex-vcenter;
+        background-color: $bg-primary-light;
         border-radius: 0.25rem;
-        align-items: center;
         height: 2rem;
         padding: 0 0.5rem;
         outline: none;
-        border: 1px solid #dedede;
+        border: 1px solid $border-light;
+        cursor: pointer;
+    }
+    &__toggle {
+        border-radius: 0.25rem;
+        height: 2rem;
+        display: flex;
+        overflow: hidden;
+        border: 1px solid $border-light;
+    }
+    &__option {
+        @include flex-center;
+        font-family: 'Material Icons';
+        background-color: $bg-secondary-light;
+        color: $text-primary-light;
+        width: 2rem;
+        height: calc(2rem - 2px);
+        cursor: pointer;
+        &:first-child {
+            border-right: 1px solid $border-light;
+        }
+        &--active {
+            background-color: $bg-primary-light;
+            color: $text-other-light;
+        }
     }
 }
-
 .whiteboard {
     display: flex;
     flex-wrap: wrap;
     width: 100vw;
     height: calc(100vh - 4.75rem);
 }
-
 .editor-container {
     width: calc(100vw - 18.75rem);
     height: calc(100vh - 23.5rem);
     position: relative;
 }
-
 .lang {
     position: absolute;
     top: 1rem;
     right: 1rem;
     z-index: 999;
-    height: 2rem;
-
+    div {
+        height: 2rem;
+    }
     img {
+        @include cta;
         width: 2rem;
         height: 2rem;
         opacity: 0.75;
         transition: opacity 0.3s, filter 0.3s;
         filter: saturate(0);
-        cursor: pointer;
 
         &:hover {
             opacity: 1;
@@ -84,77 +108,64 @@
         }
     }
 }
-
 .editor, .firebase {
-    width: 100%;
-    height: 100%;
+    @include grow-to-container;
 }
-
 .users-container {
     width: 18.75rem;
     height: calc(100vh - 23.5rem);
-    border-left: 1px solid #dedede;
+    border-left: 1px solid $border-light;
 }
-
-.users {
-    width: 100%;
-    height: 50%;
-    padding: 1rem;
-    overflow-y: scroll;
-
-    &__form {
-        display: flex;
-    }
-    &__input {
-        border-radius: 4px 0 0 4px;
-        border: 1px solid #dedede;
-        background-color: white;
-        width: 100%;
-        outline: none;
-        padding: 8px;
-    }
-    &__button {
-        border-radius: 0 4px 4px 0;
-        border-top: 1px solid #dedede;
-        border-right: 1px solid #dedede;
-        border-bottom: 1px solid #dedede;
-        border-left: none;
-        background: #f2f2f2;
-        outline: none;
-        padding: 8px;
-        cursor: pointer;
-    }
-    &__list {
-        list-style: none;
-        padding: 1rem 0;
-    }
-}
-
-.user {
-    width: 100%;
-    display: flex;
-    margin-bottom: 0.5rem;
-
-    &__avatar {
-        width: 1rem;
-        height: 1rem;
-        margin-right: 1rem;
-        border-radius: 50%;
-    }
-    &__username {
-        font-size: .875rem;
-    }
-}
-
-.chat {
-    width: 100%;
-    height: 50%;
-    padding: 1rem;
-    overflow-y: scroll;
-    border-top: 1px solid #dedede;
-}
-
 .console-container {
     width: 100vw;
     height: 18.75rem;
+}
+.dark {
+    .header {
+        border-bottom: 1px solid $border-dark;
+    }
+    .logo {
+        &__whiteboardId {
+            background: $bg-secondary-dark;
+        }
+        &__seperator {
+            color: $text-secondary-dark;
+        }
+    }
+    .settings {
+        &__select {
+            background-color: $bg-primary-dark;
+            border: 1px solid $border-dark;
+            color: $text-primary-dark;
+        }
+        &__toggle {
+            border: 1px solid $border-dark;
+        }
+        &__option {
+            background-color: $bg-primary-dark;
+            color: $text-primary-dark;
+    
+            &:first-child {
+                border-right: 1px solid $border-dark;
+            }
+            &--active {
+                background-color: $bg-other-dark;
+                color: $text-other-dark;
+            }
+        }
+    }
+    .users-container {
+        border-left: 1px solid $border-dark;
+    }
+    .lang {
+        img {
+            filter: brightness(10) saturate(0);
+            opacity: 0.25;
+            transition: opacity 0.3s;
+            &:hover {
+                filter: brightness(10) saturate(0);
+                opacity: 1;
+            }
+        }
+    }
 }

@@ -1,42 +1,116 @@
 @use '../../partials/ace-overrides' as *;
 @use '../../partials/hljs-overrides' as *;
+@use '../../partials/colors' as *;
+@use '../../partials/mixins' as *;
 
 .console {
-    width: 100%;
-    height: 100%;
-
+    @include grow-to-container;
     &__drag {
-        border-top: .0625rem solid #dedede;
+        border-top: .0625rem solid $border-light;
         cursor: row-resize;
         height: .0625rem;
         padding-bottom: .375rem;
     }
     &__head {
-        display: flex;
-        align-items: center;
+        @include flex-vcenter;
+        background-color: $bg-primary-light;
         padding: .125rem 0 .5rem 2.5625rem;
     }
     &__title {
-        margin-right: .5rem;
+        margin-right: .5rem; 
         font-size: 1.125rem;
     }
-    &__output {
-        background-color: #f2f2f2;
-        height: calc(100% - 3.375rem);
+    &__body {
+        background-color: $bg-secondary-light;
+        height: calc(100% - 3.3125rem);
         overflow-y: scroll;
     }
-}
+    &__output {
+        background-color: $bg-secondary-light;
+        height: calc(100% - 1.75rem);
+        &::after {
+            display: block;
+            content: "";
+            background-color: $bg-secondary-light;
+            width: 100%;
+            height: 1.25rem;
+        }
+    }
+    &__stdin {
+        @include std-line;
+        display: none;
+        &::before {
+            content: "navigate_next";
+        }
+    }
+    &__input {
+        @include flex-vcenter;
+        @include code;
+        height: 20px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        width: 100%;
+    }
+    &__log {
+        @include std-line;
+        &::before {
+            content: "navigate_before";
+        }
+        pre, anonymous {
+            @include code;
+            width: 100%;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word; 
+            & * {
+                @include code;
+            }
+        }
+        &--error {
+            &::before {
+                content: "error";
+                color: $text-error-light;
+            }
+            background-color: $bg-error-light;
+            & pre, anonymous {
+                color: $text-error-light;
+            }
+        }
+        &--user {
+            display: flex;
+            font-style: italic;
+            color: $text-secondary-light;
 
+            &::before {
+                content: "navigate_next";
+            }
+            pre {
+                @include flex-vcenter;
+            }
+        }
+    }
+    &__avatar {
+        @include avatar;
+        border: 1px solid rgb(0, 0, 0, 0.1);
+    }
+    &__header {
+        @extend .console__log;
+        pre {
+            color: $text-secondary-light;
+            font-style: italic;
+        }
+    }
+}
 .button {
-    display: flex;
-    align-items: center;
+    @include flex-center;
+    @include cta;
     margin-left: .5rem;
-    padding: .5rem .6rem .5rem .5rem;
+    padding: .5rem;
     border-radius: .25rem;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    
+    min-width: 5.5rem;
     &__icon {
         font-family: 'Material Icons';
         font-size: 1.25rem;
@@ -46,69 +120,82 @@
         font-weight: 600;
     }
     &--primary {
-        background-color: #0366d6;
-        color: white;
+        background-color: $highlight-primary-blue;
+        color: $highlight-primary-white;
     }
     &--secondary {
         background-color: #cd200215;
-        color: #cd1f02
+        color: $highlight-primary-red;
+    }
+    &--stop {
+        background-color: $highlight-primary-red;
+        color: $highlight-primary-white;
     }
 }
-
-
-
-
-// TEMPORARY
-pre, anonymous {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-}
-.op {
-    padding: 4px 41px;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-    font-size: 12px;
-    line-height: 20px;
-}
-.carrot {
-    color: #0366d6;
-    padding-right: 16px;
-    font-weight: 900;
-    height: 20px;
-    font-size: 16px;
-    font-family: monospace;
-    display: flex;
-    align-items: center;
-}
-.m-i {
-    font-family: 'Material Icons';
-}
-.output {
-    text-align: left;
-    width: 100%;
-    white-space: wrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    span {
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-    }
+.button:disabled, .button[disabled] {
+    opacity: 0.5;
 }
 .hidden {
     display: none;
 }
 .expand {
+    @include cta;
     font-family: 'Material Icons' !important;
-    cursor: pointer;
-    font-size: 18px;
+    font-size: 1.125rem !important;
     vertical-align: bottom;
 }
-.op.error {
-    background-color: #ffc2bd;
-}
-.carrot.error {
-    color: #c43529;
-}
-.output.error {
-    color: #c43529;
+.dark {
+    .console {
+        &__drag {
+            border-top: 1px solid $border-dark;
+        }
+        &__head {
+            background-color: $bg-primary-dark;
+        }
+        &__body {
+            background-color: $bg-secondary-dark;
+        }
+        &__output {
+            background-color: $bg-secondary-dark;
+            &::after {
+                background-color: $bg-secondary-dark;
+            }
+        }
+        &__input {
+            color: $text-primary-dark;
+        }
+        &__stdin {
+            border-bottom: 1px solid rgb(255, 255, 255, 0.065);
+        }
+        &__log {
+            border-bottom: 1px solid rgb(255, 255, 255, 0.065);
+            &--error {
+                &::before {
+                    color: $text-error-dark;
+                }
+                background-color: $bg-error-dark;
+                & pre, anonymous {
+                    color: $text-error-dark;
+                }
+            }
+            &--user {
+                color: $text-secondary-dark;
+            }
+        }
+        &__avatar {
+            border: 1px solid rgb(255, 255, 255, 0.1);
+        }
+        &__header {
+            border-bottom: 1px solid rgb(255, 255, 255, 0.065);
+            pre {
+                color: $text-secondary-dark;
+            }
+        }
+    }
+    .button {
+        &--secondary {
+            background-color: #cd20023b;
+            color: $bg-error-light
+        }
+    }
 }

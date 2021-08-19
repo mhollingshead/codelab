@@ -1,4 +1,3 @@
-import './App.scss';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Whiteboard from './pages/Whiteboard';
 

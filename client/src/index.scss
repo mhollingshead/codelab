@@ -8,4 +8,10 @@
 body {
   overflow: hidden;
   min-height: 34.375rem;
+  background-color: white;
+}
+
+body.dark {
+  background-color: #1D1F21;
+  color: white;
 }

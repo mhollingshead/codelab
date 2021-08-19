@@ -10,19 +10,14 @@ function arrToString(arr)
     return str .. "}"
 end
 
--- Beginner challenge:
--- write a function that can add any two numbers.
-
+-- Write a function that can add any two numbers. (easy)
 function add(n1, n2) 
     return n1 + n2
 end 
 print(add(9, 10))
 
-
--- Beginner challenge:
--- backwards for loop. print out all numbers in an array, backwards.
+-- Print out all numbers in an array, backwards. (easy)
 -- extra: create a new array with reversed values
-
 function reverseArr(arr)
     for i = #arr, 1, -1 do
         print(arr[i])
@@ -31,10 +26,7 @@ end
 
 reverseArr({0, 1, 2, 3, 4, 5})
 
-
--- Beginner challenge:
--- Add all numbers in an array
-
+-- Add all numbers in an array. (easy)
 function sumArr(arr)
     sum = 0
     for i = 1, #arr do
@@ -45,10 +37,7 @@ end
 
 print(sumArr({0, 1, 2, 3, 4, 5}))
 
-
--- Beginner challenge:
--- Add all the even numbers in the array
-
+-- Add all the even numbers in the array. (easy)
 function sumEvenArr(arr)
     sum = 0
     for i = 1, #arr do
@@ -61,10 +50,7 @@ end
 
 print(sumEvenArr({0, 1, 2, 3, 4, 5}))
 
-
--- Beginner Challenge:
--- find the sum of all positive integers in an array
-
+-- Find the sum of all positive integers in an array. (easy)
 function sumPositiveArr(arr)
     sum = 0
     for i = 1, #arr do
@@ -77,10 +63,7 @@ end
 
 print(sumPositiveArr({0, 1, -2, 3, -4, 5}))
 
-
--- Beginner Challenge:
--- Find all even numbers in an array, that are also divisible by 4, evenly.
-
+-- Find all even numbers in an array, that are also divisible by 4, evenly. (easy)
 function divisibleBy4(arr)
     filtered = {}
     for i = 1, #arr do
@@ -93,13 +76,7 @@ end
 
 print(arrToString(divisibleBy4({1, 8, 7, 4, -3, 2, 10, 12})))
 
-
--- Beginner challenge:
--- for every number divisible by 3, print 'spicy'
--- for every number divisible by 5, print 'Peas'
--- for every number divisble by 3 and 5, print 'spicyPeas'
--- for every other number, print it directly
-
+-- FizzBuzz but spicyPeas (easy)
 function spicyPeas()
     for i = 1, 20 do
         if i % 3 == 0 and i % 5 == 0 then
@@ -116,10 +93,7 @@ end
 
 spicyPeas()
 
-
--- Beginner challenge:
--- find the missing number in an array that has the numbers 1-9
-
+-- Find the missing number in an array that has the numbers 1-9. (easy)
 function findMissingNumber(arr)
     for i = 1, #arr do
         if not (arr[i+1] == arr[i] + 1) then
