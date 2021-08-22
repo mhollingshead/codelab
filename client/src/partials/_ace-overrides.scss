@@ -20,7 +20,7 @@
 }
 
 .ace-tm {
-    background-color: #FFFFFF;
+    background-color: transparent;
     color: black;
 }
 
@@ -171,7 +171,7 @@
 }
 
 .ace-tm .ace_constant.ace_other {
-    color: #CED1CF
+    color: #808080
 }
 
 .ace-tm .ace_entity.ace_name.ace_function,.ace-tm .ace_support.ace_function,.ace-tm .ace_variable {
@@ -193,13 +193,13 @@
 }
 
 .ace-tomorrow-night {
-    background-color: #1D1F21;
+    background-color: transparent !important;
     color: #FFFFFF !important
 }
 
 .ace-tomorrow-night .ace_cursor {
     color: #AEAFAD
-}
+} 
 
 .ace-tomorrow-night .ace_marker-layer .ace_selection {
     background: #373B41

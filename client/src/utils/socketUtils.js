@@ -1,4 +1,4 @@
-import { evaluate, logError } from "./consoleUtils";
+import { evaluate, logError, logInput } from "./consoleUtils";
 
 export const handleOutput = output => {
     if (output.vanillaJS) {
@@ -16,4 +16,8 @@ export const handleOutput = output => {
             })
         }
     }
+}
+
+export const handleInput = input => {
+    logInput(input.data);
 }

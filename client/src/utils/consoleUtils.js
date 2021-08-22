@@ -1,6 +1,5 @@
 import bash from  '../assets/icons/bash.svg';
 import c_cpp from  '../assets/icons/c_cpp.svg';
-import csharp from  '../assets/icons/csharp.svg';
 import java from  '../assets/icons/java.svg';
 import javascript from '../assets/icons/javascript.svg';
 import lua from  '../assets/icons/lua.svg';
@@ -8,7 +7,7 @@ import node from  '../assets/icons/node.svg';
 import ocaml from  '../assets/icons/ocaml.svg';
 import python from  '../assets/icons/python.svg';
 
-export const langs = {"c_cpp": {"icon": c_cpp,"display": "C/C++"},"csharp": {"icon": csharp,"display": "C#"},"java": {"icon": java,"display": "Java"},"javascript": {"icon": javascript,"display": "JavaScript"},"lua": {"icon": lua,"display": "Lua"},"node": {"icon": node,"display": "Node.js"},"python": {"icon": python,"display": "Python"},"ocaml": {"icon": ocaml,"display": "OCaml"},"sh": {"icon": bash,"display": "Bash"}};
+export const langs = {"c_cpp": {"icon": c_cpp,"display": "C/C++","file": "main.cpp"},"java": {"icon": java,"display": "Java","file": "Main.java"},"javascript": {"icon": javascript,"display": "JavaScript","file": "main.js"},"lua": {"icon": lua,"display": "Lua","file": "main.lua"},"node": {"icon": node,"display": "Node.js","file": "main.js"},"python": {"icon": python,"display": "Python","file": "main.py"},"ocaml": {"icon": ocaml,"display": "OCaml","file": "main.ml"},"sh": {"icon": bash,"display": "Bash","file": "main.sh"}};
 
 const legacy = console.log;
 export function hijackConsole() {
@@ -45,7 +44,23 @@ export function logUser(data, color) {
     const logger = document.querySelector('.console__stdout');
     logger.innerHTML += `
         <div class="console__log console__log--user">
-            <pre><div class="console__avatar" style="background-color: ${color}"></div>${data.user.username} @ ${new Date(data.time).toUTCString()}:</pre>
+            <pre>
+                <div class="console__avatar" style="background-color: ${color}"></div>
+                <span class="${data.user.username.replaceAll(" ", "")}">${data.user.username}</span> 
+                <span> ~ ${new Date(data.time).toUTCString()}:</span>
+            </pre>
+        </div>
+    `;
+    // Scroll to bottom of the console on new logs
+    const body = document.querySelector('.console__body');
+    body.scrollTo(body.scrollHeight, body.scrollHeight);
+}
+
+export function logInput(data) {
+    const logger = document.querySelector('.console__stdout');
+    logger.innerHTML += `
+        <div class="console__log console__log--input">
+            <pre>${data}</pre>
         </div>
     `;
     // Scroll to bottom of the console on new logs

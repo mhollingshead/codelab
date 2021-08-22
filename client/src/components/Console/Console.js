@@ -1,6 +1,6 @@
 import './Console.scss';
 import { hijackConsole, evaluate, giveConsoleBack, logUser } from '../../utils/consoleUtils';
-import { handleOutput } from '../../utils/socketUtils';
+import { handleInput, handleOutput } from '../../utils/socketUtils';
 import { getVersion } from '../../utils/engineUtils';
 import { useEffect, useRef, useState } from 'react';
 
@@ -19,6 +19,7 @@ export default function Console({ editor, lang, socket }) {
 
     useEffect(() => {
         socket.on("output", handleOutput);
+        socket.on("write input", handleInput);
         socket.on("process finished", () => {
             setRunning(false);
             setRunningAll(false);
@@ -36,7 +37,7 @@ export default function Console({ editor, lang, socket }) {
         } else if (lang === "python") {
             setHeader("Python 2.7.16");
         } else {
-            getVersion(lang).then(res => setHeader(`${lang === "node" ? "Node" : ""} ${res.data.split("Copyright")[0]}`));
+            getVersion(lang).then(res => setHeader(`${lang === "node" ? "Node " : ""}${res.data.split("\n")[0].split("Copyright")[0]}`));
         }
     }, [lang]);
 
@@ -46,7 +47,7 @@ export default function Console({ editor, lang, socket }) {
                 socket.emit(lang, { script: editor.getValue() });
             }
         } else {
-            socket.emit(lang, { script: editor.getValue(), to: to });
+            socket.emit(lang, { script: editor.getValue(), to: to, args: document.querySelector('#args').value.split(" ") });
             document.querySelector('.console__stdin').style.display = "flex";
             document.querySelector('.console__input').focus();
             to === "self" ? setRunning(true) : setRunningAll(true);
@@ -55,7 +56,7 @@ export default function Console({ editor, lang, socket }) {
 
     const handleSTDIN = e => {
         e.preventDefault();
-        (e.target.stdin.value) && socket.emit("input", { input: e.target.stdin.value, toAll: runningAllRef.current });
+        socket.emit("input", { input: e.target.stdin.value, toAll: runningAllRef.current });
         e.target.reset();
     }
 
@@ -79,6 +80,7 @@ export default function Console({ editor, lang, socket }) {
                     <span className="button__icon">do_not_disturb</span>
                     <span className="button__text">Clear</span>
                 </button>
+                {!(lang === "javascript") && <input className="console__args" name="args" id="args" placeholder="arg1 arg2 arg3 ..." />}
             </div>
             <div className="console__body">
                 <div className="console__header"><pre>{header}</pre></div>

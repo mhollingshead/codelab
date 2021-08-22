@@ -11,7 +11,7 @@
 }
 
 @mixin std-line {
-    @include flex-vcenter;
+    display: flex;
     padding: 2px 41px;
     width: 100%;
     border-bottom: 1px solid rgb(0, 0, 0, 0.065);

@@ -1,80 +1,6 @@
 @use '../../partials/colors' as *;
 @use '../../partials/mixins' as *;
 
-.header {
-    @include flex-vcenter;
-    border-bottom: 1px solid $border-light;
-    justify-content: space-between;
-    width: 100vw;
-    height: 4.75rem;
-    padding: 0 1rem;
-}
-.logo {
-    @include flex-vcenter;
-    &__icon {
-        font-family: 'Material Icons';
-        font-size: 1.5rem;
-        color: $highlight-primary-blue;
-    }
-    &__title  {
-        font-size: 1.5rem;
-        font-weight: 500;
-    }
-    &__seperator {
-        font-family: monospace;
-        font-size: 1.5rem;
-        font-weight: 300;
-        margin: 0 .25rem;
-    }
-    &__whiteboardId {
-        @include cta;
-        background-color: $bg-secondary-light;
-        font-size: 1rem;
-        font-weight: 500;
-        color: $highlight-primary-blue;
-        padding: .25rem;
-        border-radius: .25rem;
-    }
-}
-.settings {
-    display: flex;
-    & > * {
-        margin-left: 1rem;
-    }
-    &__select {
-        @include flex-vcenter;
-        background-color: $bg-primary-light;
-        border-radius: 0.25rem;
-        height: 2rem;
-        padding: 0 0.5rem;
-        outline: none;
-        border: 1px solid $border-light;
-        cursor: pointer;
-    }
-    &__toggle {
-        border-radius: 0.25rem;
-        height: 2rem;
-        display: flex;
-        overflow: hidden;
-        border: 1px solid $border-light;
-    }
-    &__option {
-        @include flex-center;
-        font-family: 'Material Icons';
-        background-color: $bg-secondary-light;
-        color: $text-primary-light;
-        width: 2rem;
-        height: calc(2rem - 2px);
-        cursor: pointer;
-        &:first-child {
-            border-right: 1px solid $border-light;
-        }
-        &--active {
-            background-color: $bg-primary-light;
-            color: $text-other-light;
-        }
-    }
-}
 .whiteboard {
     display: flex;
     flex-wrap: wrap;
@@ -121,39 +47,6 @@
     height: 18.75rem;
 }
 .dark {
-    .header {
-        border-bottom: 1px solid $border-dark;
-    }
-    .logo {
-        &__whiteboardId {
-            background: $bg-secondary-dark;
-        }
-        &__seperator {
-            color: $text-secondary-dark;
-        }
-    }
-    .settings {
-        &__select {
-            background-color: $bg-primary-dark;
-            border: 1px solid $border-dark;
-            color: $text-primary-dark;
-        }
-        &__toggle {
-            border: 1px solid $border-dark;
-        }
-        &__option {
-            background-color: $bg-primary-dark;
-            color: $text-primary-dark;
-    
-            &:first-child {
-                border-right: 1px solid $border-dark;
-            }
-            &--active {
-                background-color: $bg-other-dark;
-                color: $text-other-dark;
-            }
-        }
-    }
     .users-container {
         border-left: 1px solid $border-dark;
     }

@@ -28,3 +28,33 @@ export function newUserId(length) {
     }
     return result;
 }
+
+export async function makeUnique(id, ref) {
+    let i = 0;
+    const usersRef = ref.child('users');
+    await usersRef.once('value').then(snapshot => {
+        while (snapshot.child(!i ? id : `${id} ${i}`).val()) {
+            i++;
+            console.log(i);
+        }
+    })
+    return !i ? id : `${id} ${i}`;
+}
+
+export function copyLink() {
+    // Add temporary element to body
+    const tmp = document.createElement('input');
+    tmp.value = window.location.href;
+    document.body.appendChild(tmp);
+
+    // Select + copy it, then remove it
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+
+    // Handle aria label
+    const idArea = document.querySelector(".logo__whiteboardId");
+    idArea.ariaLabel = "Copied to clipboard!";
+    const revertAriaLabel = () => idArea.ariaLabel = "Copy sharable link";
+    idArea.addEventListener('mouseout', () => setTimeout(revertAriaLabel, 500));
+}
