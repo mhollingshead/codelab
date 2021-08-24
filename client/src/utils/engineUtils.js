@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getVersion = lang => axios.get(`/version/${lang}`);
+export const getVersion = lang => axios.get(`http://18.119.161.63:8080/version/${lang}`);
 
 export function download(lang, script) {
     let filename;
