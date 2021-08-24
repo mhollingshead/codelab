@@ -35,7 +35,7 @@ export default function Console({ editor, lang, socket }) {
         if (lang === "javascript") {
             setHeader("JavaScript v1.7");
         } else if (lang === "python") {
-            setHeader("Python 2.7.16");
+            setHeader("Python 3.8.2");
         } else {
             getVersion(lang).then(res => setHeader(`${lang === "node" ? "Node " : ""}${res.data.split("\n")[0].split("Copyright")[0]}`));
         }
