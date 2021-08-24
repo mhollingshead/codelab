@@ -76,7 +76,7 @@ codelab uses:
 * **[Firepad](https://firepad.io/)** for collaboration
 * **[Ace](https://ace.c9.io/)** for the code editor
 * **[Firebase](https://firebase.google.com/)** for data storage & management
-* **Socket.io** for user communication and process communication
+* **[Socket.io](https://socket.io/)** for user communication and process communication
 * **[React](https://reactjs.org/)** & **[Express](https://expressjs.com/)** for the application framework
 * **[Sass](https://sass-lang.com/)** for CSS preprocessing
 * **[Highlight.js](https://highlightjs.org/)** for additional syntax highlighting
