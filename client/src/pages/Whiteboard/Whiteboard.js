@@ -42,7 +42,7 @@ export default function Whiteboard({ match : { params : { id } } }) {
         }
     }
     const initSocket = id => {
-        const _socket = io('http://18.119.161.63:8080');
+        const _socket = io('https://18.119.164.105:8080/');
         _socket.emit('join', { username: id, roomname: firebaseRef.key });
         setSocket(_socket);
     }
