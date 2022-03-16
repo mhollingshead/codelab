@@ -24,6 +24,7 @@ const handleConnection = socket => {
         const user = getUser(socket.id);
         socket.broadcast.to(user.roomname).emit("foreign process", {user: user, time: new Date()});
         socket.broadcast.to(user.roomname).emit("output", { data: script, vanillaJS: true });
+        socket.broadcast.to(user.roomname).emit("process finished");
     })
 
     socket.on('node', ({ script, to, args }) => {

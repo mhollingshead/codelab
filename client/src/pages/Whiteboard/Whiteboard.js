@@ -26,6 +26,7 @@ export default function Whiteboard({ match : { params : { id } } }) {
     const initAce = () => {
         const _editor =  window.ace.edit('editor')
         _editor.session.setMode(`ace/mode/${lang === "node" ? "javascript" : lang}`);
+        if (localStorage.getItem('theme') === 'dark') _editor.setTheme("ace/theme/tomorrow_night");
         _editor.setOption("showPrintMargin", false);
         _editor.setOption("wrap", true);
         setEditor(_editor);

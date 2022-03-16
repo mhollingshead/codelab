@@ -12,8 +12,8 @@ A temporary demo deployment with limited language support can be found [here](ht
 
 #### Server:
 * Download the project directory `codelab-main.zip` [here](https://github.com/mhollingshead/codelab/archive/refs/heads/main.zip), unzip and `cd` into `codelab-main`. 
-* In the `/server` directory, rename `.env.sample` to `.env`. Here you can set the `PORT` variable, which is the port that the server will be listening on. If no value is provided, the server will default to `8080`. 
-***Note:** if you set `PORT` to something other than `8080`, be sure to update the `"proxy"` in `/client/package.json` accordingly.*
+* In the `/server` directory, rename `.env.sample` to `.env`. Here you can set the `PORT` variable, which is the port that the server will be listening on. If no value is provided, the server will default to `8090`. 
+***Note:** if you set `PORT` to something other than `8090`, be sure to update the `"proxy"` in `/client/package.json` accordingly.*
 
 * Finally, in the `/server` directory, run `npm install` to install the necessary dependencies, then `npm start` to start the server.
 

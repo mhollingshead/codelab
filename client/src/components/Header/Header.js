@@ -9,9 +9,11 @@ export default function Header({ firebaseRef, editor, lang, handleLangChange, ha
         if (body.classList.contains('dark')) {
             editor.setTheme("ace/theme/textmate");
             body.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
         } else {
             editor.setTheme("ace/theme/tomorrow_night");
             body.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
         }
     }
 

@@ -224,4 +224,19 @@
             color: $bg-error-light
         }
     }
+    .hljs-number, .hljs-literal{
+        color: #b379ff;
+    }
+    .hljs-title, .hljs-tag, .hljs-name {
+        color: #298dff;
+    }
+    .hljs-string {
+        color: #ff8e5f;
+    }
+    .hljs-keyword, .hljs-variable {
+        color: #b379ff;
+    }
+    .hljs-ind {
+        color: rgb(157, 157, 157);
+    }
 }
